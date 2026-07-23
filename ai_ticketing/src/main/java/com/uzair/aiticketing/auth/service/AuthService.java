@@ -7,6 +7,7 @@ import com.uzair.aiticketing.exception.DuplicateResourceException;
 import com.uzair.aiticketing.exception.ResourceNotFoundException;
 import com.uzair.aiticketing.security.jwt.JwtService;
 import com.uzair.aiticketing.user.mapper.UserMapper;
+import com.uzair.aiticketing.user.model.Role;
 import com.uzair.aiticketing.user.model.User;
 import com.uzair.aiticketing.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -34,6 +35,7 @@ public class AuthService {
         User user = userMapper.toEntity(request);
 
         user.setPassword(passwordEncoder.encode(request.password()));
+        user.setRole(Role.USER);
 
         User savedUser = userRepository.save(user);
 

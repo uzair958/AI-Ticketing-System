@@ -43,4 +43,12 @@ public class AuthController {
                 )
         );
     }
+
+    @GetMapping("/health")
+    public ResponseEntity<ApiResponse<Void>> health() {
+
+        return ResponseEntity.ok(
+                ApiResponse.success("Authentication service is running.")
+        );
+    }
 }

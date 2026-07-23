@@ -15,4 +15,5 @@ public final class AppConstants {
 
     public static final String DEFAULT_ROLE = "USER";
 
+    public static final String TICKET_BASE = "/api/tickets";
 }
