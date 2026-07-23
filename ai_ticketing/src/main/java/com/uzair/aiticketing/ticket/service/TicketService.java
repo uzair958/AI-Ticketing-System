@@ -21,6 +21,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
@@ -32,6 +33,7 @@ public class TicketService {
     private final UserRepository userRepository;
     private final TicketMapper ticketMapper;
 
+        @Transactional
     public TicketResponse createTicket(
             CreateTicketRequest request,
             User currentUser
@@ -46,6 +48,7 @@ public class TicketService {
         return ticketMapper.toResponse(savedTicket);
     }
 
+        @Transactional(readOnly = true)
     public PageResponse<TicketResponse> getAllTickets(
             int page,
             int size,
@@ -62,6 +65,7 @@ public class TicketService {
         Pageable pageable = PageRequest.of(page, size, sort);
 
         Specification<Ticket> specification = Specification.allOf(
+            TicketSpecification.fetchUserRelations(),
                 TicketSpecification.hasStatus(status),
                 TicketSpecification.hasPriority(priority),
                 TicketSpecification.titleContains(title)
@@ -78,6 +82,7 @@ public class TicketService {
         );
     }
 
+        @Transactional(readOnly = true)
     public TicketResponse getTicketById(UUID id) {
 
         Ticket ticket = ticketRepository.findById(id)
@@ -87,6 +92,7 @@ public class TicketService {
         return ticketMapper.toResponse(ticket);
     }
 
+        @Transactional
     public TicketResponse updateTicket(
             UUID id,
             UpdateTicketRequest request
@@ -103,6 +109,7 @@ public class TicketService {
         return ticketMapper.toResponse(updatedTicket);
     }
 
+        @Transactional
     public TicketResponse assignTicket(
             UUID id,
             AssignTicketRequest request
@@ -123,6 +130,7 @@ public class TicketService {
         return ticketMapper.toResponse(updatedTicket);
     }
 
+        @Transactional
     public void deleteTicket(UUID id) {
 
         Ticket ticket = ticketRepository.findById(id)
