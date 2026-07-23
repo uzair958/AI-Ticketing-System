@@ -8,7 +8,10 @@ import com.uzair.aiticketing.ticket.dto.TicketResponse;
 import com.uzair.aiticketing.ticket.dto.UpdateTicketRequest;
 import com.uzair.aiticketing.ticket.mapper.TicketMapper;
 import com.uzair.aiticketing.ticket.model.Ticket;
+import com.uzair.aiticketing.ticket.model.TicketPriority;
+import com.uzair.aiticketing.ticket.model.TicketStatus;
 import com.uzair.aiticketing.ticket.repository.TicketRepository;
+import com.uzair.aiticketing.ticket.specification.TicketSpecification;
 import com.uzair.aiticketing.user.model.User;
 import com.uzair.aiticketing.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +19,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -46,16 +50,27 @@ public class TicketService {
             int page,
             int size,
             String sortBy,
-            String direction
+            String direction,
+            TicketStatus status,
+            TicketPriority priority,
+            String title
     ) {
 
-        Sort sort = direction.equalsIgnoreCase("asc")
-                ? Sort.by(sortBy).ascending()
-                : Sort.by(sortBy).descending();
+        Sort.Direction sortDirection = Sort.Direction.fromString(direction);
+        Sort sort = Sort.by(sortDirection, sortBy);
 
         Pageable pageable = PageRequest.of(page, size, sort);
 
-        Page<Ticket> ticketPage = ticketRepository.findAll(pageable);
+        Specification<Ticket> specification = Specification.allOf(
+                TicketSpecification.hasStatus(status),
+                TicketSpecification.hasPriority(priority),
+                TicketSpecification.titleContains(title)
+        );
+
+        Page<Ticket> ticketPage = ticketRepository.findAll(
+                specification,
+                pageable
+        );
 
         return PageResponse.of(
                 ticketPage,

@@ -7,6 +7,8 @@ import com.uzair.aiticketing.ticket.dto.AssignTicketRequest;
 import com.uzair.aiticketing.ticket.dto.CreateTicketRequest;
 import com.uzair.aiticketing.ticket.dto.TicketResponse;
 import com.uzair.aiticketing.ticket.dto.UpdateTicketRequest;
+import com.uzair.aiticketing.ticket.model.TicketPriority;
+import com.uzair.aiticketing.ticket.model.TicketStatus;
 import com.uzair.aiticketing.ticket.service.TicketService;
 import com.uzair.aiticketing.user.model.User;
 import jakarta.validation.Valid;
@@ -40,18 +42,43 @@ public class TicketController {
 
     @GetMapping
     public ResponseEntity<ApiResponse<PageResponse<TicketResponse>>> getAllTickets(
+
             @RequestParam(defaultValue = "0") int page,
+
             @RequestParam(defaultValue = "10") int size,
+
             @RequestParam(defaultValue = "createdAt") String sortBy,
-            @RequestParam(defaultValue = "desc") String direction
+
+            @RequestParam(defaultValue = "desc") String direction,
+
+            @RequestParam(required = false) TicketStatus status,
+
+            @RequestParam(required = false) TicketPriority priority,
+
+            @RequestParam(required = false) String title
+
     ) {
 
         return ResponseEntity.ok(
+
                 ApiResponse.success(
+
                         "Tickets fetched successfully.",
-                        ticketService.getAllTickets(page, size, sortBy, direction)
+
+                        ticketService.getAllTickets(
+                                page,
+                                size,
+                                sortBy,
+                                direction,
+                                status,
+                                priority,
+                                title
+                        )
+
                 )
+
         );
+
     }
 
     @GetMapping("/{id}")

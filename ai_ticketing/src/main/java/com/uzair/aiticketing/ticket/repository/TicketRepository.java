@@ -1,5 +1,5 @@
 package com.uzair.aiticketing.ticket.repository;
-
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import com.uzair.aiticketing.ticket.model.Ticket;
 import com.uzair.aiticketing.ticket.model.TicketPriority;
 import com.uzair.aiticketing.ticket.model.TicketStatus;
@@ -10,7 +10,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;
 
-public interface TicketRepository extends JpaRepository<Ticket, UUID> {
+public interface TicketRepository extends
+        JpaRepository<Ticket, UUID>,
+        JpaSpecificationExecutor<Ticket> {
 
     Page<Ticket> findAll(Pageable pageable);
 
