@@ -143,10 +143,6 @@ https://your-demo-link
 
 ---
 
-## 🔍 Similar Historical Tickets (Qdrant)
-
-![Qdrant](screenshots/qdrant-search.png)
-
 ---
 
 ## 📄 Ticket Details
@@ -365,6 +361,7 @@ Navigate to the frontend.
 
 ```bash
 cd frontend
+cd react-app
 ```
 
 Install packages
@@ -420,7 +417,7 @@ spring.jpa.show-sql=true
 Configure your Groq API.
 
 ```properties
-spring.ai.openai.api-key=YOUR_GROQ_API_KEY
+spring.ai.openai.api-key=GROQ_API_KEY
 
 spring.ai.openai.base-url=https://api.groq.com/openai
 
@@ -436,11 +433,13 @@ Since Groq provides an OpenAI-compatible API, Spring AI integrates seamlessly wi
 Configure your vector database.
 
 ```properties
-qdrant.host=localhost
+qdrant.host=localhost OR cloud Endpoint without https
 
 qdrant.port=6334
 
 qdrant.collection=ticket-knowledge-base
+
+
 ```
 
 The application uses Qdrant to store vector embeddings generated from historical support tickets.
@@ -460,9 +459,11 @@ MYSQL_PASSWORD=YOUR_PASSWORD
 
 JWT_SECRET=YOUR_SECRET_KEY
 
-GROQ_API_KEY=YOUR_GROQ_API_KEY
+GROQ_API_KEY=_GROQ_API_KEY
 
-QDRANT_HOST=localhost
+QDRANT_API_KEY=QDRANT_API_KEY
+
+QDRANT_HOST=localhost OR cloud Endpoint without https
 
 QDRANT_PORT=6334
 ```
