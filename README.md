@@ -103,10 +103,10 @@ This makes AI responses significantly more accurate, consistent, and explainable
 
 # 🎥 Demo
 
-> Replace this with your Loom or YouTube demo.
+> Loom demo.
 
 ```
-https://your-demo-link
+https://www.loom.com/share/2849d64e24fd4ecc92ec81f6f592a8e5
 ```
 
 ---
